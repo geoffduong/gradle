@@ -16,6 +16,7 @@
 package org.gradle.language.nativeplatform.internal;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An immutable snapshot of the preprocessor directives from a source or header file.
@@ -27,8 +28,8 @@ public interface IncludeDirectives {
     List<Include> getAll();
     List<Include> getIncludesOnly();
 
-    List<Macro> getMacros();
-    List<MacroFunction> getMacrosFunctions();
+    Map<String, Macro> getMacros();
+    Map<String, MacroFunction> getMacrosFunctions();
 
     /**
      * Returns a copy of these directives, with #import directives removed.

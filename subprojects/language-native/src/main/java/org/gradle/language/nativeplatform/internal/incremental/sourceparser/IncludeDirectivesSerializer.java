@@ -17,10 +17,12 @@
 package org.gradle.language.nativeplatform.internal.incremental.sourceparser;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import org.gradle.internal.serialize.BaseSerializerFactory;
 import org.gradle.internal.serialize.Decoder;
 import org.gradle.internal.serialize.Encoder;
 import org.gradle.internal.serialize.ListSerializer;
+import org.gradle.internal.serialize.MapSerializer;
 import org.gradle.internal.serialize.Serializer;
 import org.gradle.language.nativeplatform.internal.Expression;
 import org.gradle.language.nativeplatform.internal.Include;
@@ -36,12 +38,12 @@ public class IncludeDirectivesSerializer implements Serializer<IncludeDirectives
     private final Serializer<IncludeType> enumSerializer = new BaseSerializerFactory().getSerializerFor(IncludeType.class);
     private final Serializer<Expression> expressionSerializer = new ExpressionSerializer(enumSerializer);
     private final ListSerializer<Include> includeListSerializer = new ListSerializer<Include>(new IncludeSerializer(enumSerializer, expressionSerializer));
-    private final ListSerializer<Macro> macroListSerializer = new ListSerializer<Macro>(new MacroSerializer(enumSerializer, expressionSerializer));
-    private final ListSerializer<MacroFunction> macroFunctionListSerializer = new ListSerializer<MacroFunction>(new MacroFunctionSerializer(enumSerializer, expressionSerializer));
+    private final MapSerializer<String, Macro> macroListSerializer = new MapSerializer<String, Macro>(BaseSerializerFactory.STRING_SERIALIZER, new MacroSerializer(enumSerializer, expressionSerializer));
+    private final MapSerializer<String, MacroFunction> macroFunctionListSerializer = new MapSerializer<String, MacroFunction>(BaseSerializerFactory.STRING_SERIALIZER, new MacroFunctionSerializer(enumSerializer, expressionSerializer));
 
     @Override
     public IncludeDirectives read(Decoder decoder) throws Exception {
-        return new DefaultIncludeDirectives(ImmutableList.copyOf(includeListSerializer.read(decoder)), ImmutableList.copyOf(macroListSerializer.read(decoder)), ImmutableList.copyOf(macroFunctionListSerializer.read(decoder)));
+        return new DefaultIncludeDirectives(ImmutableList.copyOf(includeListSerializer.read(decoder)), ImmutableMap.copyOf(macroListSerializer.read(decoder)), ImmutableMap.copyOf(macroFunctionListSerializer.read(decoder)));
     }
 
     @Override
