@@ -25,7 +25,6 @@ import org.gradle.internal.hash.HashCode;
 import org.gradle.language.nativeplatform.internal.Include;
 import org.gradle.language.nativeplatform.internal.IncludeDirectives;
 import org.gradle.language.nativeplatform.internal.IncludeType;
-import org.gradle.language.nativeplatform.internal.registry.NativeLanguageServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,10 +46,10 @@ public class IncrementalCompileFilesFactory {
     private final SourceIncludesParser sourceIncludesParser;
     private final SourceIncludesResolver sourceIncludesResolver;
     private final FileSystemSnapshotter fileSystemSnapshotter;
-    private final NativeLanguageServices.IncludeAnalysisFileDetailsCache includeAnalysisCache;
+    private final IncludeAnalysisFileDetailsCache includeAnalysisCache;
     private final boolean ignoreUnresolvedHeadersInDependencies;
 
-    public IncrementalCompileFilesFactory(SourceIncludesParser sourceIncludesParser, SourceIncludesResolver sourceIncludesResolver, FileSystemSnapshotter fileSystemSnapshotter, NativeLanguageServices.IncludeAnalysisFileDetailsCache includeAnalysisCache) {
+    public IncrementalCompileFilesFactory(SourceIncludesParser sourceIncludesParser, SourceIncludesResolver sourceIncludesResolver, FileSystemSnapshotter fileSystemSnapshotter, IncludeAnalysisFileDetailsCache includeAnalysisCache) {
         this.sourceIncludesParser = sourceIncludesParser;
         this.sourceIncludesResolver = sourceIncludesResolver;
         this.fileSystemSnapshotter = fileSystemSnapshotter;

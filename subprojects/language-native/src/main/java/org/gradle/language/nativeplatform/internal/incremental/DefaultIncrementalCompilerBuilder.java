@@ -28,7 +28,6 @@ import org.gradle.cache.PersistentStateCache;
 import org.gradle.internal.operations.BuildOperationExecutor;
 import org.gradle.language.base.internal.compile.Compiler;
 import org.gradle.language.nativeplatform.internal.incremental.sourceparser.CSourceParser;
-import org.gradle.language.nativeplatform.internal.registry.NativeLanguageServices;
 import org.gradle.nativeplatform.toolchain.Clang;
 import org.gradle.nativeplatform.toolchain.Gcc;
 import org.gradle.nativeplatform.toolchain.internal.NativeCompileSpec;
@@ -45,9 +44,9 @@ public class DefaultIncrementalCompilerBuilder implements IncrementalCompilerBui
     private final DirectoryFileTreeFactory directoryFileTreeFactory;
     private final TaskFileVarFactory fileVarFactory;
     private final BuildOperationExecutor buildOperationExecutor;
-    private final NativeLanguageServices.IncludeAnalysisFileDetailsCache includeAnalysisCache;
+    private final IncludeAnalysisFileDetailsCache includeAnalysisCache;
 
-    public DefaultIncrementalCompilerBuilder(FileSystemSnapshotter fileSystemSnapshotter, CompilationStateCacheFactory compilationStateCacheFactory, CSourceParser sourceParser, DirectoryFileTreeFactory directoryFileTreeFactory, TaskFileVarFactory fileVarFactory, BuildOperationExecutor buildOperationExecutor, NativeLanguageServices.IncludeAnalysisFileDetailsCache includeAnalysisCache) {
+    public DefaultIncrementalCompilerBuilder(FileSystemSnapshotter fileSystemSnapshotter, CompilationStateCacheFactory compilationStateCacheFactory, CSourceParser sourceParser, DirectoryFileTreeFactory directoryFileTreeFactory, TaskFileVarFactory fileVarFactory, BuildOperationExecutor buildOperationExecutor, IncludeAnalysisFileDetailsCache includeAnalysisCache) {
         this.fileSystemSnapshotter = fileSystemSnapshotter;
         this.compilationStateCacheFactory = compilationStateCacheFactory;
         this.sourceParser = sourceParser;
@@ -68,7 +67,7 @@ public class DefaultIncrementalCompilerBuilder implements IncrementalCompilerBui
         private final CSourceParser sourceParser;
         private final DirectoryFileTreeFactory directoryFileTreeFactory;
         private final BuildOperationExecutor buildOperationExecutor;
-        private final NativeLanguageServices.IncludeAnalysisFileDetailsCache includeAnalysisCache;
+        private final IncludeAnalysisFileDetailsCache includeAnalysisCache;
         private final TaskOutputsInternal taskOutputs;
         private final FileCollection includeDirs;
         private final String taskPath;
@@ -78,7 +77,7 @@ public class DefaultIncrementalCompilerBuilder implements IncrementalCompilerBui
         private IncrementalCompilation incrementalCompilation;
         private NativeToolChainInternal toolChain;
 
-        StateCollectingIncrementalCompiler(TaskInternal task, FileCollection includeDirs, FileCollection sourceFiles, FileSystemSnapshotter fileSystemSnapshotter, CompilationStateCacheFactory compilationStateCacheFactory, CSourceParser sourceParser, DirectoryFileTreeFactory directoryFileTreeFactory, TaskFileVarFactory fileVarFactory, BuildOperationExecutor buildOperationExecutor, NativeLanguageServices.IncludeAnalysisFileDetailsCache includeAnalysisCache) {
+        StateCollectingIncrementalCompiler(TaskInternal task, FileCollection includeDirs, FileCollection sourceFiles, FileSystemSnapshotter fileSystemSnapshotter, CompilationStateCacheFactory compilationStateCacheFactory, CSourceParser sourceParser, DirectoryFileTreeFactory directoryFileTreeFactory, TaskFileVarFactory fileVarFactory, BuildOperationExecutor buildOperationExecutor, IncludeAnalysisFileDetailsCache includeAnalysisCache) {
             this.taskOutputs = task.getOutputs();
             this.taskPath = task.getPath();
             this.includeDirs = includeDirs;
