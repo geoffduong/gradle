@@ -19,5 +19,4 @@ package org.gradle.language.nativeplatform.internal.incremental;
 import org.gradle.language.nativeplatform.internal.IncludeDirectives;
 
 public interface MacroLookup extends Iterable<IncludeDirectives> {
-    int getHash();
 }

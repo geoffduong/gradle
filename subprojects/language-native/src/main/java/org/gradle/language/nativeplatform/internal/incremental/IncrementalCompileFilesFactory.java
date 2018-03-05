@@ -113,7 +113,7 @@ public class IncrementalCompileFilesFactory {
         }
 
         private FileVisitResult visitFile(File file, FileSnapshot fileSnapshot, CollectingMacroLookup visibleMacros, Set<File> visited, boolean isSourceFile) {
-            int hash = visibleMacros.getHash();
+            int hash = visibleMacros.getLookupCacheHash();
             FileDetails fileDetails = includeAnalysisCache.get(file, hash);
             if (fileDetails != null && fileDetails.results != null) {
                 // A file that we can safely reuse the result for

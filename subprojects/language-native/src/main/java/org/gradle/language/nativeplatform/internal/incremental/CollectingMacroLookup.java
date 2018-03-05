@@ -48,13 +48,10 @@ public class CollectingMacroLookup implements MacroLookup {
             visible.put(file, includeDirectives);
         }
 
-        for (Macro macro : includeDirectives.getMacros().values()) {
-            hash = Objects.hashCode(hash, macro.getName(), macro.getValue());
-        }
+        hash = Objects.hashCode(hash, includeDirectives.getMacros().values(), includeDirectives.getMacrosFunctions().values());
     }
 
-    @Override
-    public int getHash() {
+    public int getLookupCacheHash() {
         collectAll();
         return hash;
     }
