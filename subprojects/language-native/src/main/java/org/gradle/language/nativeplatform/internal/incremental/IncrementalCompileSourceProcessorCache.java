@@ -23,30 +23,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IncrementalCompileSourceProcessorCache {
-    private final Map<File, IncrementalCompileFilesFactory.FileDetails> cache = new HashMap<File, IncrementalCompileFilesFactory.FileDetails>();
-    private final Map<Integer, IncrementalCompileFilesFactory.FileDetails> cacheAccordingToMacros = new HashMap<Integer, IncrementalCompileFilesFactory.FileDetails>();
+    private final Map<File, IncrementalCompileFilesFactory.FileDetails> fileBasedCache = new HashMap<File, IncrementalCompileFilesFactory.FileDetails>();
+    private final Map<Integer, IncrementalCompileFilesFactory.FileDetails> discoveredMacroBasedCache = new HashMap<Integer, IncrementalCompileFilesFactory.FileDetails>();
     private final Object lock = new Object();
 
-    public IncrementalCompileFilesFactory.FileDetails get(File file, int hash) {
+    public IncrementalCompileFilesFactory.FileDetails get(File file, int discoveredMacroHash) {
         synchronized (lock) {
-            IncrementalCompileFilesFactory.FileDetails result = cache.get(file);
+            IncrementalCompileFilesFactory.FileDetails result = fileBasedCache.get(file);
             if (result != null) {
                 return result;
             }
 
-            return cacheAccordingToMacros.get(Objects.hashCode(file, hash));
+            return discoveredMacroBasedCache.get(Objects.hashCode(file, discoveredMacroHash));
         }
     }
 
     public void put(File file, IncrementalCompileFilesFactory.FileDetails fileDetails) {
         synchronized (lock) {
-            cache.put(file, fileDetails);
+            fileBasedCache.put(file, fileDetails);
         }
     }
 
-    public void put(File file, int hash, IncrementalCompileFilesFactory.FileDetails fileDetails) {
+    public void put(File file, int discoveredMacroHash, IncrementalCompileFilesFactory.FileDetails fileDetails) {
         synchronized (lock) {
-            cacheAccordingToMacros.put(Objects.hashCode(file, hash), fileDetails);
+            discoveredMacroBasedCache.put(Objects.hashCode(file, discoveredMacroHash), fileDetails);
         }
     }
 }
