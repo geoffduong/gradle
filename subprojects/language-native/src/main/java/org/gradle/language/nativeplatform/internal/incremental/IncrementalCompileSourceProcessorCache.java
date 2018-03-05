@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IncludeAnalysisFileDetailsCache {
+public class IncrementalCompileSourceProcessorCache {
     private final Map<File, IncrementalCompileFilesFactory.FileDetails> cache = new HashMap<File, IncrementalCompileFilesFactory.FileDetails>();
     private final Map<Integer, IncrementalCompileFilesFactory.FileDetails> cacheAccordingToMacros = new HashMap<Integer, IncrementalCompileFilesFactory.FileDetails>();
     private final Object lock = new Object();

@@ -46,14 +46,14 @@ public class IncrementalCompileFilesFactory {
     private final SourceIncludesParser sourceIncludesParser;
     private final SourceIncludesResolver sourceIncludesResolver;
     private final FileSystemSnapshotter fileSystemSnapshotter;
-    private final IncludeAnalysisFileDetailsCache includeAnalysisCache;
+    private final IncrementalCompileSourceProcessorCache includeProcessorCache;
     private final boolean ignoreUnresolvedHeadersInDependencies;
 
-    public IncrementalCompileFilesFactory(SourceIncludesParser sourceIncludesParser, SourceIncludesResolver sourceIncludesResolver, FileSystemSnapshotter fileSystemSnapshotter, IncludeAnalysisFileDetailsCache includeAnalysisCache) {
+    public IncrementalCompileFilesFactory(SourceIncludesParser sourceIncludesParser, SourceIncludesResolver sourceIncludesResolver, FileSystemSnapshotter fileSystemSnapshotter, IncrementalCompileSourceProcessorCache includeProcessorCache) {
         this.sourceIncludesParser = sourceIncludesParser;
         this.sourceIncludesResolver = sourceIncludesResolver;
         this.fileSystemSnapshotter = fileSystemSnapshotter;
-        this.includeAnalysisCache = includeAnalysisCache;
+        this.includeProcessorCache = includeProcessorCache;
         this.ignoreUnresolvedHeadersInDependencies = Boolean.getBoolean(IGNORE_UNRESOLVED_HEADERS_IN_DEPENDENCIES_PROPERTY_NAME);
     }
 
@@ -113,7 +113,7 @@ public class IncrementalCompileFilesFactory {
 
         private FileVisitResult visitFile(File file, FileSnapshot fileSnapshot, CollectingMacroLookup visibleMacros, Set<File> visited, boolean isSourceFile) {
             int hash = visibleMacros.getLookupCacheHash();
-            FileDetails fileDetails = includeAnalysisCache.get(file, hash);
+            FileDetails fileDetails = includeProcessorCache.get(file, hash);
             if (fileDetails != null && fileDetails.results != null) {
                 // A file that we can safely reuse the result for
                 visibleMacros.append(fileDetails.results);
@@ -163,9 +163,9 @@ public class IncrementalCompileFilesFactory {
             fileDetails.results = visitResult;
             if (result == IncludeFileResolutionResult.NoMacroIncludes) {
                 // No macro includes were seen in the include graph of this file, so the result can be reused if this file is seen again
-                includeAnalysisCache.put(file, fileDetails);
+                includeProcessorCache.put(file, fileDetails);
             } else {
-                includeAnalysisCache.put(file, hash, fileDetails);
+                includeProcessorCache.put(file, hash, fileDetails);
             }
             return visitResult;
         }

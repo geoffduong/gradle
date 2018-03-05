@@ -22,7 +22,7 @@ import org.gradle.language.cpp.internal.NativeDependencyCache;
 import org.gradle.language.internal.DefaultNativeComponentFactory;
 import org.gradle.language.nativeplatform.internal.incremental.DefaultCompilationStateCacheFactory;
 import org.gradle.language.nativeplatform.internal.incremental.DefaultIncrementalCompilerBuilder;
-import org.gradle.language.nativeplatform.internal.incremental.IncludeAnalysisFileDetailsCache;
+import org.gradle.language.nativeplatform.internal.incremental.IncrementalCompileSourceProcessorCache;
 import org.gradle.language.nativeplatform.internal.incremental.sourceparser.CachingCSourceParser;
 import org.gradle.language.nativeplatform.internal.toolchains.DefaultToolChainSelector;
 
@@ -35,7 +35,7 @@ public class NativeLanguageServices extends AbstractPluginServiceRegistry {
 
     @Override
     public void registerBuildSessionServices(ServiceRegistration registration) {
-        registration.add(IncludeAnalysisFileDetailsCache.class);
+        registration.add(IncrementalCompileSourceProcessorCache.class);
     }
 
     @Override
