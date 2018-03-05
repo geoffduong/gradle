@@ -161,12 +161,11 @@ public class IncrementalCompileFilesFactory {
             }
 
             FileVisitResult visitResult = new FileVisitResult(file, result, fileDetails.state, fileDetails.directives, included, includedFileDirectives);
+            fileDetails.results = visitResult;
             if (result == IncludeFileResolutionResult.NoMacroIncludes) {
                 // No macro includes were seen in the include graph of this file, so the result can be reused if this file is seen again
-                fileDetails.results = visitResult;
                 includeAnalysisCache.put(file, fileDetails);
             } else {
-                fileDetails.results = visitResult;
                 includeAnalysisCache.put(file, hash, fileDetails);
             }
             return visitResult;
