@@ -13,11 +13,11 @@ Also regarding testing, you can now improve your testing feedback loop when runn
             excludeTags 'slow'
             includeEngines 'junit-jupiter', 'junit-vintage'
         }
-        
+
         failFast = true
     }
 
-Moving on to dependency management improvements: you can now [declare dependency constraints for transitive dependencies](#dependency-constraints-for-transitive-dependencies) and avoid problems caused by oft-hidden upstream dependency changes. 
+Moving on to dependency management improvements: you can now [declare dependency constraints for transitive dependencies](#dependency-constraints-for-transitive-dependencies) and avoid problems caused by oft-hidden upstream dependency changes.
 
 This release also features enhanced Maven dependency compatibility: support for [importing BOMs](#bom-import), [optional dependencies](#support-for-optional-dependencies-in-pom-consumption), and [compile/runtime separation when consuming POMs](#compile/runtime-scope-separation-in-pom-consumption).
 For now you must enable these features by adding `enableFeaturePreview('IMPROVED_POM_SUPPORT')` to your _settings.gradle_ file, as they break backward compatibility in some cases.
@@ -34,9 +34,9 @@ We hope you will build happiness with Gradle 4.6, and we look forward to your fe
 
 Switch your build to use Gradle 4.6 quickly by updating your wrapper properties:
 
-    gradle wrapper --gradle-version=4.6
+    ./gradlew wrapper --gradle-version=4.6
 
-Standalone downloads are available at [gradle.org/releases](https://gradle.org/releases). 
+Standalone downloads are available at [gradle.org/releases](https://gradle.org/releases).
 
 ## New and noteworthy
 
@@ -50,7 +50,7 @@ Here are the new features introduced in this Gradle release.
 
 The `JUnit Platform` serves as a foundation for launching testing frameworks on the JVM. `JUnit Jupiter` is the combination of the new [programming model](http://junit.org/junit5/docs/current/user-guide/#writing-tests)
  and [extension model](http://junit.org/junit5/docs/current/user-guide/#extensions) for writing tests and extensions in JUnit 5. `JUnit Vintage` provides a `TestEngine` for running JUnit 3 and JUnit 4 based tests on the platform.
-    
+
 Gradle now provides native support for `JUnit Jupiter/Vintage Engine` on top of `JUnit Platform`. To enable `JUnit Platform` support, you just need to add one line to your `build.gradle`:
 
     test {
@@ -63,16 +63,16 @@ Moreover, [Tagging and Filtering](http://junit.org/junit5/docs/current/user-guid
         useJUnitPlatform {
             // includeTags 'fast'
             excludeTags 'slow'
-            
+
             // includeEngines 'junit-jupiter', 'junit-vintage'
             // excludeEngines 'custom-engine'
         }
     }
-    
+
 You can find more information on [test grouping and filtering in the Java Plugin documentation](userguide/java_plugin.html#test_grouping).
-    
+
 #### JUnit Jupiter Engine
-    
+
 To enable `JUnit Jupiter` support, add the following dependencies:
 
     dependencies {
@@ -83,18 +83,18 @@ To enable `JUnit Jupiter` support, add the following dependencies:
 Put your first `Jupiter` test into `src/test/java/foo/bar`:
 
     package foo.bar;
-    
+
     import org.junit.jupiter.api.Test;
-    
+
     public class JUnitJupiterTest {
         @Test
-        public void ok() { 
+        public void ok() {
         }
     }
-    
-Now you can run `gradle test` to see the results of your JUnit 5 tests! 
 
-You can find a sample of test with `JUnit Jupiter` at `samples/testing/junitplatform/jupiter` in the '-all' distribution of Gradle. 
+Now you can run `gradle test` to see the results of your JUnit 5 tests!
+
+You can find a sample of test with `JUnit Jupiter` at `samples/testing/junitplatform/jupiter` in the '-all' distribution of Gradle.
 
 #### JUnit Vintage Engine
 
@@ -103,12 +103,12 @@ If you want to run JUnit 3/4 tests on `JUnit Platform`, you should add extra `JU
     test {
         useJUnitPlatform()
     }
-    
+
     dependencies {
-        testCompileOnly 'junit:junit:4.12' 
-        testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0' 
+        testCompileOnly 'junit:junit:4.12'
+        testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
     }
-    
+
 You can mix JUnit 3/4 tests with `Jupiter` tests without the need to rewrite old tests.
 A sample of mixed tests can be found at `samples/testing/junitplatform/engine` in the '-all' distribution of Gradle.         
 
@@ -130,7 +130,7 @@ More information is available in the [Java Plugin documentation for test executi
 
 ### Allow declared reasons for dependency and resolution rules
 
-In complex builds, it can become hard to interpret dependency resolution results and why a [dependency declaration](userguide/customizing_dependency_resolution_behavior.html) or a [rule](userguide/inspecting_dependencies.html#sec:dependency_declaration_reasons) was added to a build script. To improve on this situation, we extended all the corresponding APIs with the capability to define a _reason_ for each declaration or rule. 
+In complex builds, it can become hard to interpret dependency resolution results and why a [dependency declaration](userguide/customizing_dependency_resolution_behavior.html) or a [rule](userguide/inspecting_dependencies.html#sec:dependency_declaration_reasons) was added to a build script. To improve on this situation, we extended all the corresponding APIs with the capability to define a _reason_ for each declaration or rule.
 
 These reasons are shown in dependency insight reports and error messages if the corresponding declaration or rule influenced the resolution result. In the future, they will also be shown in build scans.
 
@@ -139,10 +139,10 @@ These reasons are shown in dependency insight reports and error messages if the 
             because 'we require a JDK 9 compatible bytecode generator'
         }
     }
-    
+
 ### Dependency constraints for transitive dependencies
 
-With [dependency constraints](userguide/managing_transitive_dependencies.html#sec:dependency_constraints), Gradle adds a mechanism to express constraints over transitive dependencies which are used during dependency resolution. 
+With [dependency constraints](userguide/managing_transitive_dependencies.html#sec:dependency_constraints), Gradle adds a mechanism to express constraints over transitive dependencies which are used during dependency resolution.
 
     dependencies {
         implementation 'org.apache.httpcomponents:httpclient'
@@ -186,7 +186,7 @@ Gradle now [provides support](userguide/managing_transitive_dependencies.html#se
     dependencies {
         // import a BOM
         implementation 'org.springframework.boot:spring-boot-dependencies:1.5.8.RELEASE'
-    
+
         // define dependencies without versions
         implementation 'com.google.code.gson:gson'
         implementation 'dom4j:dom4j'
@@ -301,7 +301,7 @@ For example, the built-in [`jacoco`](userguide/jacoco_plugin.html) plugin [uses 
     }
 
     task.getJvmArgumentProviders().add(new JacocoAgent(extension));
-    
+
 For this to work, [JacocoTaskExtension](dsl/org.gradle.testing.jacoco.plugins.JacocoTaskExtension.html) needs to have the correct input and output annotations.
 
 See the [documentation about tasks with nested inputs](userguide/more_about_tasks.html#sec:task_input_nested_inputs) for information how to leverage this feature in custom plugins.
@@ -330,7 +330,7 @@ This does not happen anymore, and the `--info` logs should be much less verbose 
 
 ### Caching for Scala compilation when using the `play` plugin
 
-The task `PlatformScalaCompile` is now cacheable. 
+The task `PlatformScalaCompile` is now cacheable.
 This means that [Play projects](userguide/play_plugin.html) written in Scala now also benefit from the [build cache](userguide/build_cache.html)!
 
 ### Improved Visual Studio IDE support for multi-project builds
@@ -346,7 +346,7 @@ Highlights to the `gradle-native` plugins will continue to be mentioned in Gradl
 ### Documentation updates
 
 Documentation in this release of Gradle has significantly improved in the following areas:
- 
+
  * Dependency management, especially regarding [managing dependency configurations](userguide/managing_dependency_configurations.html) and [understanding terminology](userguide/dependency_management_terminology.html)
  * [Troubleshooting](userguide/troubleshooting.html)
  * [Installation](userguide/installation.html)
